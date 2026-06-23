@@ -1,19 +1,13 @@
 library(tidyverse)
 source("extra.R")
 library(combinat)
+library(corrplot)
 
 
-db <- read.csv("synthetic_data.csv")
-
-db |>
-  select(starts_with("X")) |>
-  cor(use = "complete.obs") |>
-  corrplot::corrplot(method = "color", type = "upper", tl.col = "black")
-
-pval_cor_t(db, .05) %>%
+pval_cor(db, .05) %>% class()
   {rowSums(. > 0.05, na.rm = TRUE)}
 
-pval_cor_t(db, .05) %>%
+pval_cor(db, .05) %>%
   {
     .[rowSums(. > 0.05, na.rm = TRUE) <= 1,
       rowSums(. > 0.05, na.rm = TRUE) <= 1]

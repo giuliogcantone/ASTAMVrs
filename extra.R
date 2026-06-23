@@ -1,4 +1,4 @@
-pval_cor_t <- function(data, t = 0, prefix = "X") {
+pval_cor <- function(data, t = 0, prefix = "X") {
 
   X <- data[, grepl(paste0("^", prefix), names(data))]
 
