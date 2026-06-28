@@ -43,33 +43,6 @@ pval_cor <- function(data, t = 0, prefix = "X") {
 }
 
 
-autofa <- function(db, partition) {
-
-  db_std <- db
-  db_std[setdiff(names(db), "id")] <- scale(db_std[setdiff(names(db), "id")])
-
-  purrr::map_dfr(seq_along(partition), function(i) {
-
-    vars <- strsplit(partition[i], ",")[[1]]
-
-    eta <- tryCatch({
-      fa <- factanal(db_std[, vars], factors = 1, scores = "regression")
-      fa$scores[, 1]
-    }, error = function(e) {
-      rep(NA, nrow(db_std))
-    })
-
-    tibble::tibble(
-      id = db_std$id,
-      Eta = eta,
-      X = partition[i]
-    ) %>%
-      mutate(
-        rank = rank(-Eta, ties.method = "first")
-      )
-  })
-}
-
 
 autofa <- function(db, partition) {
 

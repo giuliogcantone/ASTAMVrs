@@ -1,10 +1,11 @@
+db <- read.csv("data.csv")
 library(tidyverse)
 source("extra.R")
 library(combinat)
 library(corrplot)
 
 
-pval_cor(db, .05) %>% class()
+pval_cor(db, .05) %>%
   {rowSums(. > 0.05, na.rm = TRUE)}
 
 pval_cor(db, .05) %>%
